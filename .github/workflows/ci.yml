@@ -1,14 +1,14 @@
 name: CI Pipeline
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
+    branches: [ "main" ]
+  push:
     branches: [ "main" ]
 
 jobs:
-  build:
-    name: Build & Docker
+  validate:
+    name: Validate & Build
     runs-on: ubuntu-latest
 
     steps:
@@ -21,12 +21,6 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore ProviderOptimizerService.sln
-
-      - name: Build
-        run: dotnet build ProviderOptimizerService.sln --configuration Release --no-restore
-
-      - name: Restore dependencies
         run: dotnet restore
 
       - name: Build
@@ -34,6 +28,14 @@ jobs:
 
       - name: Run unit tests only
         run: dotnet test --filter "Category!=Integration"
+  docker:
+    if: github.event_name == 'push'
+    name: Docker
+    runs-on: ubuntu-latest
+    needs: validate
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Build Docker image
         run: docker build -t provider_optimizer_service_api .
