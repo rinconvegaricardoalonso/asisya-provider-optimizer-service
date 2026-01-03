@@ -22,7 +22,7 @@ services:
   api:
     build:
       context: .
-      dockerfile: ProviderOptimizerService.Api/Dockerfile
+      dockerfile: Dockerfile
     container_name: provider_optimizer_service_api
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
