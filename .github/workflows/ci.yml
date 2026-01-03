@@ -2,12 +2,12 @@ name: CI Pipeline
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "develop" ]
   pull_request:
 
 jobs:
   build:
-    name: Build Solution
+    name: Build & Docker
     runs-on: ubuntu-latest
 
     steps:
@@ -24,3 +24,6 @@ jobs:
 
       - name: Build
         run: dotnet build ProviderOptimizerService.sln --configuration Release --no-restore
+
+      - name: Build Docker image
+        run: docker build -t provider_optimizer_service_api .
