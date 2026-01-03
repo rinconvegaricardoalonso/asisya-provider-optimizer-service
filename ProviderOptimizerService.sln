@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProviderOptimizerService.In
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProviderOptimizerService.Api", "ProviderOptimizerService.Api\ProviderOptimizerService.Api.csproj", "{AD35E26A-3741-4446-B4EC-B98064CA86D3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0AB3BF05-4346-4AA6-1389-037BE0695223}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProviderOptimizerService.Application.Tests", "tests\ProviderOptimizerService.Application.Tests\ProviderOptimizerService.Application.Tests.csproj", "{5043DE7F-8654-4A1D-9846-45D6C08036EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,8 +73,23 @@ Global
 		{AD35E26A-3741-4446-B4EC-B98064CA86D3}.Release|x64.Build.0 = Release|Any CPU
 		{AD35E26A-3741-4446-B4EC-B98064CA86D3}.Release|x86.ActiveCfg = Release|Any CPU
 		{AD35E26A-3741-4446-B4EC-B98064CA86D3}.Release|x86.Build.0 = Release|Any CPU
+		{5043DE7F-8654-4A1D-9846-45D6C08036EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5043DE7F-8654-4A1D-9846-45D6C08036EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5043DE7F-8654-4A1D-9846-45D6C08036EE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5043DE7F-8654-4A1D-9846-45D6C08036EE}.Debug|x64.Build.0 = Debug|Any CPU
+		{5043DE7F-8654-4A1D-9846-45D6C08036EE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5043DE7F-8654-4A1D-9846-45D6C08036EE}.Debug|x86.Build.0 = Debug|Any CPU
+		{5043DE7F-8654-4A1D-9846-45D6C08036EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5043DE7F-8654-4A1D-9846-45D6C08036EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5043DE7F-8654-4A1D-9846-45D6C08036EE}.Release|x64.ActiveCfg = Release|Any CPU
+		{5043DE7F-8654-4A1D-9846-45D6C08036EE}.Release|x64.Build.0 = Release|Any CPU
+		{5043DE7F-8654-4A1D-9846-45D6C08036EE}.Release|x86.ActiveCfg = Release|Any CPU
+		{5043DE7F-8654-4A1D-9846-45D6C08036EE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5043DE7F-8654-4A1D-9846-45D6C08036EE} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 	EndGlobalSection
 EndGlobal

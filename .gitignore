@@ -1,0 +1,15 @@
+# .NET
+bin/
+obj/
+**/bin/
+**/obj/
+
+# Rider / VS / VSCode
+.vs/
+.vscode/
+
+# OS
+.DS_Store
+
+# Test results
+TestResults/
