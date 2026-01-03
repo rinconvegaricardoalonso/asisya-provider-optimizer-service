@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "v4qgCbclBN0=",
+  "success": true,
+  "projectFilePath": "/Users/ricardovega/Development/Asisya/ProviderOptimizerService/ProviderOptimizerService.Application/ProviderOptimizerService.Application.csproj",
+  "expectedPackageFiles": [
+    "/Users/ricardovega/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/10.0.1/microsoft.extensions.dependencyinjection.abstractions.10.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}
