@@ -25,6 +25,9 @@ jobs:
 
       - name: Build
         run: dotnet build --no-restore --configuration Release
+      
+      - name: Lint (dotnet format)
+        run: dotnet format --verify-no-changes
 
       - name: Run unit tests only
         run: dotnet test --filter "Category!=Integration"
@@ -39,3 +42,23 @@ jobs:
 
       - name: Build Docker image
         run: docker build -t provider_optimizer_service_api .
+
+      # -------------------------------
+      # OPTIONAL: Push Docker image to AWS ECR
+      # -------------------------------
+
+      # - name: Configure AWS credentials
+      #   uses: aws-actions/configure-aws-credentials@v4
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: us-east-1
+
+      # - name: Login to Amazon ECR
+      #   uses: aws-actions/amazon-ecr-login@v2
+
+      # - name: Build, tag and push image to ECR
+      #   run: |
+      #     IMAGE_URI=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/provider-optimizer-service:latest
+      #     docker tag provider-optimizer-service:latest $IMAGE_URI
+      #     docker push $IMAGE_URI
