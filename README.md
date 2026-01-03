@@ -1,26 +1,24 @@
 # Provider Optimizer Service
 
-## 📌 Overview
+Backend service built with **.NET 8** following **Clean Architecture**, designed to manage and optimize provider availability.  
+The project includes a complete **CI/CD pipeline** using **GitHub Actions**, containerization with **Docker**, and automated testing.
 
-**Provider Optimizer Service** is a backend microservice built with **.NET (Clean Architecture)** whose goal is to automatically select the *best available provider* for a roadside assistance request (crane, locksmith, battery, etc.) based on **real geographic distance (Haversine)**, availability, vehicle type, and rating.
+## 🧱 Architecture
 
-This project was designed as a **technical exercise / real-world microservice**, following best practices for architecture, persistence, Dockerization, and maintainability.
-
----
-
-## 🏗️ Architecture
-
-The project follows **Clean Architecture**, clearly separating responsibilities and dependencies:
+The solution follows **Clean Architecture** principles and is structured into the following layers:
 
 ```
 ProviderOptimizerService
-│
-├── ProviderOptimizerService.Api            # Presentation layer (HTTP / Controllers)
-├── ProviderOptimizerService.Application    # Use cases, DTOs, interfaces
-├── ProviderOptimizerService.Domain         # Domain entities and business rules
-├── ProviderOptimizerService.Infrastructure # Persistence, EF Core, repositories, seeders
-└── docker-compose.yml
+├── ProviderOptimizerService.Api
+├── ProviderOptimizerService.Application
+├── ProviderOptimizerService.Domain
+├── ProviderOptimizerService.Infrastructure
+├── tests
+│   ├── ProviderOptimizerService.Application.Tests
+│   └── ProviderOptimizerService.IntegrationTests
+└── ProviderOptimizerService.sln
 ```
+
 
 ### Layer Responsibilities
 
@@ -130,25 +128,45 @@ The closest valid provider is selected as the optimal one.
 
 ---
 
-## 🐳 Docker Support
+## 🧪 Testing Strategy
 
-The project is fully containerized using **Docker & Docker Compose**.
+### Unit Tests
+- Implemented using **xUnit**
+- Mocking with **Moq**
+- Assertions with **FluentAssertions**
+- Focused on application/use-case logic
 
-### Services
+### Integration Tests
+- Uses `WebApplicationFactory<Program>`
+- Validates real HTTP endpoints
+- Runs against a real PostgreSQL instance (via Docker Compose)
+- Example tested endpoint:
+  - `GET /providers/available`
 
-- **API** – .NET Web API
-- **PostgreSQL** – relational database
+> Integration tests are excluded from CI execution to avoid external dependencies.
 
-### Run the project
+---
+
+## 🐳 Docker
+
+The application is fully containerized using a **multi-stage Dockerfile**.
+
+### Build image locally
 
 ```bash
-docker compose up --build
+docker build -t provider-optimizer-service .
 ```
 
-### Access
+### Run with Docker Compose
 
-- **API**: http://localhost:8080
-- **Swagger**: http://localhost:8080/swagger
+```bash
+docker compose up
+```
+
+This starts:
+- API container
+- PostgreSQL container
+- Proper network configuration between services
 
 ---
 
@@ -162,6 +180,109 @@ docker compose up --build
 Connection strings are automatically resolved depending on the environment.
 
 ---
+
+## ⚙️ CI/CD Pipeline (GitHub Actions)
+
+The project includes a complete **CI/CD pipeline** located at:
+
+```
+.github/workflows/ci.yml
+```
+
+### Pipeline stages
+
+#### Pull Requests
+Executed on `pull_request` to `main` and `develop`:
+
+- Restore dependencies
+- Build solution
+- Lint (`dotnet format`)
+- Run unit tests
+
+> Docker build is intentionally **skipped** in PRs to keep validation fast.
+
+---
+
+#### Push (main / develop)
+Executed on `push` to `main` and `develop`:
+
+- Restore dependencies
+- Build solution
+- Lint (`dotnet format`)
+- Run unit tests
+- Build Docker image
+
+---
+
+### Linting
+
+Linting is enforced using:
+
+```bash
+dotnet format --verify-no-changes
+```
+
+The pipeline fails if formatting issues are detected.
+
+---
+
+## ☁️ (Optional) AWS ECR Push Configuration
+
+The pipeline includes **commented configuration** to push the Docker image to **Amazon ECR**, demonstrating cloud deployment readiness.
+
+```yaml
+# - name: Configure AWS credentials
+#   uses: aws-actions/configure-aws-credentials@v4
+#   with:
+#     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#     aws-region: us-east-1
+
+# - name: Login to Amazon ECR
+#   uses: aws-actions/amazon-ecr-login@v2
+
+# - name: Build, tag and push image to ECR
+#   run: |
+#     IMAGE_URI=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/provider-optimizer-service:latest
+#     docker tag provider-optimizer-service:latest $IMAGE_URI
+#     docker push $IMAGE_URI
+```
+
+> This configuration is intentionally commented to avoid requiring real credentials for the exercise.
+
+---
+
+## 🧠 Key Design Decisions
+
+- Clean Architecture for maintainability and scalability
+- Separation of CI validation vs artifact generation
+- Docker build only on push, not on pull requests
+- Integration tests isolated from CI to avoid infrastructure coupling
+- Production-ready pipeline structure
+
+---
+
+## 🚀 Tech Stack
+
+- .NET 8
+- ASP.NET Core
+- Entity Framework Core
+- PostgreSQL
+- Docker & Docker Compose
+- GitHub Actions
+- xUnit, Moq, FluentAssertions
+
+---
+
+## ✅ Status
+
+✔ Clean Architecture  
+✔ Unit tests  
+✔ Integration test  
+✔ Dockerized  
+✔ CI/CD pipeline  
+✔ Lint enforcement  
+✔ Cloud-ready (ECR config)
 
 ## 🧪 Development Notes
 
@@ -197,6 +318,3 @@ Connection strings are automatically resolved depending on the environment.
 Ricardo Alonso Rincón Vega
 
 ---
-
-**Ready to run. Ready to review. Ready for production discussions. 🚀**
-
